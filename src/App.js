@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+// App.js
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import DashboardPage from './pages/DashboardPage';
+import ProductsManagement from './ProductComponents/ProductsManagement.js';
+import OrdersManagement from './OrderComponent/OrderManagement.js'; // Import the OrdersManagement component
 import './App.css';
 
-function App() {
+const App = () => {
+  const [productCount, setProductCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+
+  const updateProductCount = (count) => {
+    setProductCount(count);
+  };
+
+  const updateOrderCount = (count) => {
+    setOrderCount(count);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <div className="sidebar">
+          <Header />
+          <Sidebar />
+        </div>
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<DashboardPage productCount={productCount} orderCount={orderCount} />} />
+            <Route path="/products" element={<ProductsManagement updateProductCount={updateProductCount} />} />
+            <Route path="/orders" element={<OrdersManagement updateOrderCount={updateOrderCount} />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
